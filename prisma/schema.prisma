@@ -1,0 +1,23 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("PRISMA_DB_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model StringIdModel {
+    id    String @id @default(uuid())
+    value String
+}
+
+model IntegerIdModel {
+    id    Int    @id @default(autoincrement())
+    value String
+}
+
+model BigIntegerIdModel {
+    id    BigInt @id @default(autoincrement())
+    value String
+}

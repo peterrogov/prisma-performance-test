@@ -1,0 +1,20 @@
+{
+    "name": "prisma-performance-test",
+    "version": "1.0.0",
+    "main": "src/index.ts",
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "3.8.0",
+        "nanoid": "^3.1.31",
+        "prisma": "^3.8.0"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.8",
+        "prettier": "^2.5.1",
+        "tsc": "^2.0.3",
+        "typescript": "^4.5.4"
+    },
+    "scripts": {
+        "start": "ts-node ."
+    }
+}
