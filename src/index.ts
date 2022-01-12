@@ -62,18 +62,87 @@ async function test() {
 
     //await generateRandomData();
 
-    const queryLimit = 1000;
+    const queryLimit = 5;
     const queryOffset = 950000;
 
+    /**
+     * String UUID model
+     */
+
     console.log("--- String ID model ---");
-    await prisma.stringIdModel.findMany({ skip: queryLimit, take: queryOffset });
-    await prisma.$queryRaw`SELECT * FROM public."StringIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`;
+    console.log("prisma.findMany");
+    const dts1 = await prisma.stringIdModel.findMany({ skip: queryOffset, take: queryLimit });
+    console.log("\nquery:");
+    console.log(LastQueryEvent?.query);
+    console.log("\nIDs:\n ", dts1.map((x) => x.id).join("\n  "));
+
+    if (LastQueryEvent) {
+        console.log("\nprisma.queryRaw -> generated query");
+        const dts2: any[] = await prisma.$queryRawUnsafe(
+            LastQueryEvent?.query,
+            queryLimit,
+            queryOffset
+        );
+        console.log("\nIDs:\n ", dts2.map((x: any) => x.id).join("\n  "));
+    }
+
+    console.log("\nprisma.queryRaw -> custom query");
+    const dts3: any[] = await prisma.$queryRawUnsafe(
+        `SELECT * FROM public."StringIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`
+    );
+    console.log("\nIDs:\n ", dts3.map((x: any) => x.id).join("\n  "));
+
+    /**
+     * Integer UUID model
+     */
+
     console.log("--- Integer ID model ---");
-    await prisma.integerIdModel.findMany({ skip: queryLimit, take: queryOffset });
-    await prisma.$queryRaw`SELECT * FROM public."IntegerIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`;
+    console.log("prisma.findMany");
+    const dti1 = await prisma.integerIdModel.findMany({ skip: queryOffset, take: queryLimit });
+    console.log("\nquery:");
+    console.log(LastQueryEvent?.query);
+    console.log("\nIDs:\n ", dti1.map((x) => x.id).join("\n  "));
+
+    if (LastQueryEvent) {
+        console.log("\nprisma.queryRaw -> generated query");
+        const dti2: any[] = await prisma.$queryRawUnsafe(
+            LastQueryEvent?.query,
+            queryLimit,
+            queryOffset
+        );
+        console.log("\nIDs:\n ", dti2.map((x: any) => x.id).join("\n  "));
+    }
+
+    console.log("\nprisma.queryRaw -> custom query");
+    const dti3: any[] =
+        await prisma.$queryRaw`SELECT * FROM public."IntegerIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`;
+    console.log("\nIDs:\n ", dti3.map((x: any) => x.id).join("\n  "));
+
+    /**
+     * BigInt UUID model
+     */
+
     console.log("--- BigInt ID model ---");
-    await prisma.bigIntegerIdModel.findMany({ skip: queryLimit, take: queryOffset });
-    await prisma.$queryRaw`SELECT * FROM public."BigIntegerIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`;
+    console.log("prisma.findMany");
+    const dtbi1 = await prisma.bigIntegerIdModel.findMany({ skip: queryOffset, take: queryLimit });
+    console.log("\nquery:");
+    console.log(LastQueryEvent?.query);
+    console.log("\nIDs:\n ", dti1.map((x) => x.id).join("\n  "));
+
+    if (LastQueryEvent) {
+        console.log("\nprisma.queryRaw -> generated query");
+        const dtbi2: any[] = await prisma.$queryRawUnsafe(
+            LastQueryEvent?.query,
+            queryLimit,
+            queryOffset
+        );
+        console.log("\nIDs:\n ", dtbi2.map((x: any) => x.id).join("\n  "));
+    }
+
+    console.log("\nprisma.queryRaw -> custom query");
+    const dtbi3: any[] =
+        await prisma.$queryRaw`SELECT * FROM public."BigIntegerIdModel" LIMIT ${queryLimit} OFFSET ${queryOffset}`;
+    console.log("\nIDs:\n ", dti3.map((x: any) => x.id).join("\n  "));
 }
 
 test();
